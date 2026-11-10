@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あらいの定期テスト対策</title>
+  <script src="https://cloudflare.com"></script>
   <style>
     :root { --primary: #1b4332; --accent: #2d6a4f; --accent-soft: #edf6f1; --bg: #f6f8f7; --card: #ffffff; --text: #111814; --subtext: #64746b; --border: #e3e8e5; }
     * { box-sizing: border-box; }
@@ -54,23 +55,24 @@
     .link-thumb { width: 108px; height: 152px; margin-bottom: 10px; border: 1px solid #cce3d6; border-radius: 5px; background: linear-gradient(145deg, #f0f7f3 0%, #dceee4 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary); gap: 8px; }
     .link-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.12em; padding: 2px 7px; border: 1px solid var(--accent); border-radius: 3px; color: var(--accent); }
     .pdf-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
-    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: #ffffff; z-index: 1000; flex-direction: column; transition: opacity 0.2s ease; }
+    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(12,18,15,0.94); z-index: 1000; flex-direction: column; transition: opacity 0.25s ease; }
     #viewerModal.show { opacity: 1; pointer-events: auto; }
-    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
+    .toolbar { background: #fff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
     .tool-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .toolbar button { background: #f4f6f5; color: var(--text); border: 1px solid var(--border); padding: 6px 11px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
     .toolbar button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     #ansToggleBtn { background: #fdf8ee; color: #b45309; border-color: #fde68a; }
     #ansToggleBtn.active { background: #b45309; color: #fff; border-color: #b45309; }
     .close-btn { background: #fef2f2 !important; color: #b91c1c !important; border-color: #fecaca !important; }
-    .viewer-area { flex: 1; display: flex; width: 100%; height: 100%; background: #ffffff; overflow: hidden; }
-    .pane { height: 100%; background: #ffffff; position: relative; transition: width 0.4s cubic-bezier(0.25,1,0.5,1), opacity 0.35s ease; overflow: hidden; }
-    .problem-pane { width: 100%; }
-    .viewer-area.compare-mode .problem-pane { width: 50%; border-right: 1px solid var(--border); }
+    .viewer-area { flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px; overflow: hidden; gap: 0; transition: gap 0.45s cubic-bezier(0.25,1,0.5,1); }
+    .viewer-area.compare-mode { gap: 14px; }
+    .pane { height: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 12px 36px rgba(0,0,0,0.5); position: relative; transition: width 0.45s cubic-bezier(0.25,1,0.5,1), opacity 0.4s ease; }
+    .problem-pane { width: 600px; max-width: 96vw; }
+    .viewer-area.compare-mode .problem-pane { width: 49% !important; }
     .answer-pane { width: 0; opacity: 0; pointer-events: none; }
-    .viewer-area.compare-mode .answer-pane { width: 50%; opacity: 1; pointer-events: auto; }
-    .pane iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
-    #drawCanvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; pointer-events: none; }
+    .viewer-area.compare-mode .answer-pane { width: 49%; opacity: 1; pointer-events: auto; }
+    .pane iframe { width: 100%; height: 100%; border: none; background: #fff; }
+    #drawCanvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
   </style>
 </head>
 <body>
@@ -97,7 +99,7 @@
 <div id="viewerModal">
   <div class="toolbar">
     <div class="tool-group">
-      <button id="penToggleBtn" onclick="togglePenMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path></svg><span id="penToggleLabel">ペン: OFF</span></button>
+      <button id="penToggleBtn" class="active" onclick="togglePenMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path></svg><span id="penToggleLabel">ペン: ON</span></button>
       <button id="ansToggleBtn" onclick="toggleAnswer()" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg><span id="ansToggleLabel">答えを表示</span></button>
       <button id="color-red" class="color-btn" onclick="selectPen('#d32f2f', 'color-red')" style="border:2px solid #d32f2f; color:#d32f2f; background:#fff;">赤</button>
       <button id="color-blue" class="color-btn" onclick="selectPen('#1976d2', 'color-blue')" style="border:2px solid transparent; color:#1976d2;">青</button>
@@ -109,7 +111,7 @@
       <button onclick="clearDrawing()">全消去</button>
     </div>
     <div class="tool-group">
-      <span style="font-size:11.5px; color:#64746b;">2本指で拡大・移動可</span>
+      <span style="font-size:11.5px; color:#64746b;">移動時はペンOFF</span>
       <button class="close-btn" onclick="closeViewer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg><span>閉じる</span></button>
     </div>
   </div>
@@ -121,6 +123,7 @@
 <script>
   const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
   const MICROCMS_DOMAIN = "teikitesuto";
+  if (typeof pdfjsLib !== "undefined") pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
 
   async function loadNews() {
     const listEl = document.querySelector(".news-list");
@@ -180,51 +183,48 @@
       } else {
         const card = document.createElement("div"); card.className = "pdf-card";
         card.innerHTML = `<div class="${subj.landscape ? 'pdf-thumb landscape' : 'pdf-thumb'}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
-        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null); content.appendChild(card);
+        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape); content.appendChild(card);
       }
     });
     inner.appendChild(content); body.appendChild(inner); item.append(header, body); subjectListEl.appendChild(item);
   });
 
-  let penMode = false, penColor = "#d32f2f", penWidth = 3, isEraser = false, isDrawing = false, historyStack = [], currentAnsUrl = null, isCompareOpen = false;
+  let penMode = true, penColor = "#d32f2f", penWidth = 3, isEraser = false, isDrawing = false, historyStack = [], currentAnsUrl = null, isCompareOpen = false, currentDocRatio = 0.707;
   const drawCanvas = document.getElementById("drawCanvas"), drawCtx = drawCanvas.getContext("2d");
+  function applyAutoPaneSize() {
+    const area = document.getElementById("viewerArea"), probPane = document.getElementById("problemPane");
+    if (area.classList.contains("compare-mode")) return;
+    let targetW = Math.round((area.clientHeight - 24) * currentDocRatio);
+    if (targetW > area.clientWidth - 24) targetW = area.clientWidth - 24;
+    probPane.style.width = targetW + "px";
+  }
   function resizeCanvas() {
     const saved = drawCanvas.width > 0 ? drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height) : null;
     drawCanvas.width = drawCanvas.offsetWidth; drawCanvas.height = drawCanvas.offsetHeight;
     if (saved) drawCtx.putImageData(saved, 0, 0);
   }
-  window.addEventListener("resize", () => { if (document.getElementById("viewerModal").classList.contains("show")) resizeCanvas(); });
-
-  function setPenState(active) {
-    penMode = active;
-    const btn = document.getElementById("penToggleBtn");
-    document.getElementById("penToggleLabel").textContent = penMode ? "ペン: ON" : "ペン: OFF";
-    btn.classList.toggle("active", penMode);
-    drawCanvas.style.pointerEvents = penMode ? "auto" : "none";
-  }
-
-  function openPdfViewer(url, ansUrl) {
-    historyStack = []; currentAnsUrl = ansUrl; isCompareOpen = false;
-    setPenState(false);
+  window.addEventListener("resize", () => { if (document.getElementById("viewerModal").classList.contains("show")) { applyAutoPaneSize(); resizeCanvas(); } });
+  async function openPdfViewer(url, ansUrl, isLandscape) {
+    historyStack = []; currentAnsUrl = ansUrl; isCompareOpen = false; currentDocRatio = isLandscape ? 1.414 : 0.707;
     const area = document.getElementById("viewerArea"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel");
     area.classList.remove("compare-mode"); document.getElementById("ansFrame").src = "";
     if (ansUrl) { ansBtn.style.display = "inline-flex"; ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); } else ansBtn.style.display = "none";
     document.getElementById("pdfFrame").src = `${url}#toolbar=0&navpanes=0&view=Fit`;
-    document.getElementById("viewerModal").classList.add("show");
-    setTimeout(resizeCanvas, 80);
+    document.getElementById("viewerModal").classList.add("show"); applyAutoPaneSize(); setTimeout(resizeCanvas, 80);
+    try { if (typeof pdfjsLib !== "undefined") { const doc = await pdfjsLib.getDocument(url).promise, page = await doc.getPage(1), vp = page.getViewport({ scale: 1 }); currentDocRatio = vp.width / vp.height; applyAutoPaneSize(); setTimeout(resizeCanvas, 480); } } catch (e) {}
   }
   function toggleAnswer() {
     if (!currentAnsUrl) return; isCompareOpen = !isCompareOpen;
     const area = document.getElementById("viewerArea"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel"), ansFrame = document.getElementById("ansFrame");
     if (isCompareOpen) { if (!ansFrame.src || !ansFrame.src.includes(currentAnsUrl)) ansFrame.src = `${currentAnsUrl}#toolbar=0&navpanes=0&view=Fit`; area.classList.add("compare-mode"); ansLabel.textContent = "答えを隠す"; ansBtn.classList.add("active"); }
-    else { area.classList.remove("compare-mode"); ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); }
-    setTimeout(resizeCanvas, 420);
+    else { area.classList.remove("compare-mode"); applyAutoPaneSize(); ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); }
+    setTimeout(resizeCanvas, 480);
   }
-  function closeViewer() { document.getElementById("viewerModal").classList.remove("show"); document.getElementById("pdfFrame").src = ""; document.getElementById("ansFrame").src = ""; drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); setPenState(false); }
-  function togglePenMode() { setPenState(!penMode); }
+  function closeViewer() { document.getElementById("viewerModal").classList.remove("show"); document.getElementById("pdfFrame").src = ""; document.getElementById("ansFrame").src = ""; drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); }
+  function togglePenMode() { penMode = !penMode; const btn = document.getElementById("penToggleBtn"); document.getElementById("penToggleLabel").textContent = penMode ? "ペン: ON" : "スクロール"; btn.classList.toggle("active", penMode); drawCanvas.style.pointerEvents = penMode ? "auto" : "none"; }
   function resetToolUI() { document.querySelectorAll(".color-btn").forEach(b => { b.style.borderColor = "transparent"; b.style.background = "#f4f6f5"; }); const er = document.getElementById("eraserBtn"); er.style.borderColor = "transparent"; er.style.background = "#f4f6f5"; }
-  function selectPen(color, btnId) { isEraser = false; penColor = color; resetToolUI(); const btn = document.getElementById(btnId); btn.style.borderColor = color; btn.style.background = "#fff"; if (!penMode) setPenState(true); }
-  function selectEraser() { isEraser = true; resetToolUI(); const er = document.getElementById("eraserBtn"); er.style.borderColor = "#111814"; er.style.background = "#e3e8e5"; if (!penMode) setPenState(true); }
+  function selectPen(color, btnId) { isEraser = false; penColor = color; resetToolUI(); const btn = document.getElementById(btnId); btn.style.borderColor = color; btn.style.background = "#fff"; if (!penMode) togglePenMode(); }
+  function selectEraser() { isEraser = true; resetToolUI(); const er = document.getElementById("eraserBtn"); er.style.borderColor = "#111814"; er.style.background = "#e3e8e5"; if (!penMode) togglePenMode(); }
   function saveHistory() { if (historyStack.length > 20) historyStack.shift(); historyStack.push(drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height)); }
   function undoDrawing() { if (historyStack.length > 0) drawCtx.putImageData(historyStack.pop(), 0, 0); }
   function clearDrawing() { saveHistory(); drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); }

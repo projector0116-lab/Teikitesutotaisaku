@@ -4,64 +4,263 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あらいの定期テスト対策</title>
+  <script src="https://cloudflare.com"></script>
   <style>
-    :root { --accent: #2e7d32; --accent-soft: #f1f8f1; --border: #e0e6e1; --text: #222222; }
-    body { font-family: "Hiragino Kaku Gothic ProN", sans-serif; background: #f8faf9; color: var(--text); margin: 0; padding: 15px; }
-    .container { max-width: 820px; margin: 0 auto; background: #ffffff; padding: 24px; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-    header { text-align: center; border-bottom: 2px solid var(--border); padding-bottom: 14px; margin-bottom: 24px; }
-    header h1 { margin: 0; color: var(--text); font-size: 24px; letter-spacing: 0.05em; }
+    :root {
+      --primary: #1b5e20;
+      --accent: #2e7d32;
+      --accent-light: #e8f5e9;
+      --bg: #f3f6f4;
+      --card: #ffffff;
+      --text: #1a241c;
+      --subtext: #5f6f62;
+      --border: #e2e8e4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0 0 50px;
+    }
 
-    /* 上部カルーセル（自動スライド・A4縦横対応） */
-    .carousel-section { position: relative; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 50px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+    /* モダンなヒーローヘッダー */
+    .hero-header {
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 55%, #43a047 100%);
+      color: #ffffff;
+      padding: 28px 20px 64px;
+      text-align: center;
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 8px 24px rgba(27, 94, 32, 0.18);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(4px);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .hero-header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: -42px auto 0;
+      padding: 0 16px;
+    }
+
+    /* カルーセル（見切れゼロ・A4縦横ぴったり収まる） */
+    .carousel-section {
+      position: relative;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 20px 48px;
+      margin-bottom: 26px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
     .carousel-viewport { overflow: hidden; width: 100%; }
-    .carousel-track { display: flex; align-items: center; gap: 14px; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-    .carousel-card { flex: 0 0 115px; height: 162px; background: #ffffff; border: 1.5px solid #cfd8d1; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.04); pointer-events: none; user-select: none; box-sizing: border-box; position: relative; }
-    .carousel-card.landscape { flex: 0 0 162px; height: 115px; }
-    .carousel-card iframe { width: 400%; height: 400%; transform: scale(0.25); transform-origin: 0 0; border: none; pointer-events: none; }
-    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; color: var(--accent); border: 1.5px solid var(--border); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: all 0.2s; font-weight: bold; z-index: 2; }
-    .carousel-btn:hover { background: var(--accent); color: #fff; }
-    .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+    .carousel-track { display: flex; align-items: center; gap: 16px; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+    .carousel-card {
+      flex: 0 0 112px;
+      height: 158px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      pointer-events: none;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #999;
+    }
+    .carousel-card.landscape { flex: 0 0 158px; height: 112px; }
+    .carousel-card img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ffffff;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+      font-weight: bold;
+      z-index: 2;
+    }
+    .carousel-btn:hover { background: var(--accent); color: #fff; transform: translateY(-50%) scale(1.06); }
+    .carousel-btn.prev { left: 8px; } .carousel-btn.next { right: 8px; }
     .carousel-dots { margin-top: 14px; display: flex; justify-content: center; gap: 8px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #d5ddd7; cursor: pointer; transition: all 0.3s; }
-    .dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #cfd8d1; cursor: pointer; transition: all 0.3s; }
+    .dot.active { background: var(--accent); width: 22px; border-radius: 4px; }
 
-    h2 { font-size: 17px; color: var(--text); border-left: 4px solid var(--accent); padding-left: 10px; margin: 24px 0 12px; }
-    .news-list { list-style: none; padding: 0; margin: 0 0 28px; }
-    .news-list li { border-bottom: 1px solid var(--border); padding: 10px 4px; font-size: 14px; }
-    .news-date { font-weight: bold; color: var(--accent); margin-right: 12px; }
+    /* セクション見出し */
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 26px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
 
-    /* アコーディオン */
-    .subject-item { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
-    .subject-header { background: #ffffff; padding: 14px 18px; font-size: 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .subject-header:hover { background: var(--accent-soft); }
-    .arrow { font-size: 12px; color: var(--accent); transition: transform 0.35s ease; }
-    .subject-item.open .arrow { transform: rotate(180deg); }
+    /* お知らせカード */
+    .news-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 6px 18px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+    }
+    .news-list { list-style: none; padding: 0; margin: 0; }
+    .news-list li {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 2px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .news-list li:last-child { border-bottom: none; }
+    .news-date {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* 教科アコーディオン */
+    .subject-item {
+      margin-bottom: 12px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .subject-header {
+      padding: 16px 20px;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .subject-header:hover { background: #f8fbf8; }
+    .subj-left { display: flex; align-items: center; gap: 12px; }
+    .subj-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .subj-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--subtext);
+      background: #f0f4f1;
+      padding: 2px 9px;
+      border-radius: 12px;
+    }
+    .arrow { font-size: 12px; color: var(--subtext); transition: transform 0.35s ease; }
+    .subject-item.open .arrow { transform: rotate(180deg); color: var(--accent); }
     .subject-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
     .subject-item.open .subject-body { grid-template-rows: 1fr; }
     .subject-inner { overflow: hidden; }
-    .subject-content { padding: 16px; border-top: 1px solid var(--border); background: #fcfdfc; display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 12px; }
-    .subject-content.landscape-grid { grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); }
+    .subject-content {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      background: #fafcfa;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      gap: 14px;
+    }
+    .subject-content.landscape-grid { grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); }
 
-    /* 問題カード（A4縦・A4横 見切れ防止） */
-    .pdf-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; cursor: pointer; background: #ffffff; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-    .pdf-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-    .pdf-thumb { width: 100px; height: 141px; margin-bottom: 8px; border: 1px solid #d5ddd7; border-radius: 4px; overflow: hidden; background: #f8faf9; position: relative; pointer-events: none; }
-    .pdf-thumb.landscape { width: 141px; height: 100px; }
-    .pdf-thumb iframe { width: 400%; height: 400%; transform: scale(0.25); transform-origin: 0 0; border: none; pointer-events: none; }
-    .pdf-title { font-size: 12px; font-weight: bold; color: var(--text); line-height: 1.3; }
+    /* 問題カード（A4縦・横 全体が100%収まる画像表示） */
+    .pdf-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pdf-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(46,125,50,0.12); border-color: var(--accent); }
+    .pdf-card:active { transform: scale(0.97); }
+    .pdf-thumb {
+      width: 106px;
+      height: 150px;
+      margin-bottom: 10px;
+      border: 1px solid #e2e8e4;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #999;
+    }
+    .pdf-thumb.landscape { width: 156px; height: 110px; }
+    .pdf-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .pdf-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
 
-    /* 全画面モーダル（中央配置＆答え比較スライドアニメーション） */
-    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; flex-direction: column; transition: opacity 0.25s ease; }
+    /* 全画面モーダル（中央配置＆答え比較スライド） */
+    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(15, 23, 18, 0.9); z-index: 1000; flex-direction: column; transition: opacity 0.25s ease; }
     #viewerModal.show { opacity: 1; pointer-events: auto; }
     .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
-    .toolbar button { background: #f3f5f4; color: var(--text); border: 1px solid var(--border); padding: 6px 11px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    .toolbar button { background: #f3f5f4; color: var(--text); border: 1px solid var(--border); padding: 6px 11px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; }
     .toolbar button.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
-    #ansToggleBtn { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
-    #ansToggleBtn.active { background: #f57f17; color: #ffffff; border-color: #f57f17; }
+    #ansToggleBtn { background: #fff8e1; color: #e65100; border-color: #ffcc80; }
+    #ansToggleBtn.active { background: #ef6c00; color: #ffffff; border-color: #ef6c00; }
 
     .viewer-area { flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px; overflow: hidden; gap: 0; transition: gap 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
     .viewer-area.compare-mode { gap: 14px; }
-    .pane { height: 100%; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.45); position: relative; transition: width 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease; }
+    .pane { height: 100%; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 32px rgba(0,0,0,0.45); position: relative; transition: width 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease; }
     .problem-pane { width: min(92vw, 760px); }
     .problem-pane.landscape-doc { width: min(95vw, 960px); }
     .viewer-area.compare-mode .problem-pane { width: 48.5%; }
@@ -74,8 +273,12 @@
   </style>
 </head>
 <body>
+<header class="hero-header">
+  <div class="hero-badge">EXAM STUDY PORTAL</div>
+  <h1>あらいの定期テスト対策</h1>
+</header>
+
 <div class="container">
-  <header><h1>あらいの定期テスト対策</h1></header>
   <section class="carousel-section">
     <button class="carousel-btn prev" onclick="moveSlide(-1); resetAutoSlide();">←</button>
     <div class="carousel-viewport">
@@ -84,14 +287,18 @@
     <button class="carousel-btn next" onclick="moveSlide(1); resetAutoSlide();">→</button>
     <div class="carousel-dots" id="carouselDots"></div>
   </section>
+
   <section>
-    <h2>お知らせ</h2>
-    <ul class="news-list">
-      <li><span class="news-date">11月10日</span>読み込み中...</li>
-    </ul>
+    <div class="section-title">お知らせ</div>
+    <div class="news-card">
+      <ul class="news-list">
+        <li><span class="news-date">11月10日</span>読み込み中...</li>
+      </ul>
+    </div>
   </section>
+
   <section>
-    <h2>問題一覧</h2>
+    <div class="section-title">問題一覧</div>
     <div id="subjectList"></div>
   </section>
 </div>
@@ -134,6 +341,10 @@
   const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
   const MICROCMS_DOMAIN = "teikitesuto";
 
+  if (typeof pdfjsLib !== "undefined") {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+  }
+
   async function loadNews() {
     const listEl = document.querySelector(".news-list");
     try {
@@ -142,7 +353,7 @@
       });
       const data = await res.json();
       listEl.innerHTML = (data.contents && data.contents.length > 0)
-        ? data.contents.map(i => `<li><span class="news-date">${i.date || ""}</span>${i.content || ""}</li>`).join("")
+        ? data.contents.map(i => `<li><span class="news-date">${i.date || ""}</span><span>${i.content || ""}</span></li>`).join("")
         : `<li>現在お知らせはありません。</li>`;
     } catch (e) {}
   }
@@ -158,7 +369,7 @@
 
   const subjectsData = [
     {
-      name: "社会", landscape: false,
+      name: "社会", icon: "社", color: "#e65100", landscape: false,
       pdfs: [
         { title: "歴史 平安時代", file: "shakai_heian.pdf", ans: "shakai_heian_ans.pdf" },
         { title: "歴史 平安時代 模範解答", file: "shakai_heian_ans.pdf" },
@@ -171,7 +382,7 @@
       ]
     },
     {
-      name: "国語", landscape: true,
+      name: "国語", icon: "国", color: "#c62828", landscape: true,
       pdfs: [
         { title: "文法", file: "kokugo_bunpou.pdf", ans: "kokugo_bunpou_ans.pdf" },
         { title: "文法 模範解答", file: "kokugo_bunpou_ans.pdf" },
@@ -183,10 +394,10 @@
         { title: "「言葉」をもつ鳥、シジュウカラ 模範解答", file: "kokugo_kotoba_ans.pdf" }
       ]
     },
-    { name: "数学", landscape: false, pdfs: [{ title: "数学 問題", file: "sugaku.pdf", ans: "sugaku_ans.pdf" }, { title: "数学 解答", file: "sugaku_ans.pdf" }] },
-    { name: "理科", landscape: false, pdfs: [{ title: "物質の溶解", file: "rika.pdf", ans: "rika_ans.pdf" }, { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }] },
+    { name: "数学", icon: "数", color: "#1565c0", landscape: false, pdfs: [{ title: "数学 問題", file: "sugaku.pdf", ans: "sugaku_ans.pdf" }, { title: "数学 解答", file: "sugaku_ans.pdf" }] },
+    { name: "理科", icon: "理", color: "#2e7d32", landscape: false, pdfs: [{ title: "物質の溶解", file: "rika.pdf", ans: "rika_ans.pdf" }, { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }] },
     {
-      name: "英語", landscape: false,
+      name: "英語", icon: "英", color: "#6a1b9a", landscape: false,
       pdfs: [
         { title: "unit6 問題", file: "eigo_unit6.pdf", ans: "eigo_unit6_ans.pdf" },
         { title: "unit6 模範解答", file: "eigo_unit6_ans.pdf" },
@@ -194,16 +405,38 @@
         { title: "unit7 模範解答", file: "eigo_unit7_ans.pdf" }
       ]
     },
-    { name: "音楽", landscape: false, pdfs: [{ title: "音楽 問題", file: "ongaku.pdf", ans: "ongaku_ans.pdf" }, { title: "音楽 模範解答", file: "ongaku_ans.pdf" }] },
-    { name: "保健体育", landscape: false, pdfs: [{ title: "保健体育 問題", file: "hoken.pdf", ans: "hoken_ans.pdf" }, { title: "保健体育 模範解答", file: "hoken_ans.pdf" }] },
-    { name: "技術家庭科", landscape: false, pdfs: [{ title: "技術家庭科 問題", file: "gijutsu.pdf", ans: "gijutsu_ans.pdf" }, { title: "技術家庭科 模範解答", file: "gijutsu_ans.pdf" }] }
+    { name: "音楽", icon: "音", color: "#ad1457", landscape: false, pdfs: [{ title: "音楽 問題", file: "ongaku.pdf", ans: "ongaku_ans.pdf" }, { title: "音楽 模範解答", file: "ongaku_ans.pdf" }] },
+    { name: "保健体育", icon: "体", color: "#00838f", landscape: false, pdfs: [{ title: "保健体育 問題", file: "hoken.pdf", ans: "hoken_ans.pdf" }, { title: "保健体育 模範解答", file: "hoken_ans.pdf" }] },
+    { name: "技術家庭科", icon: "技", color: "#4e342e", landscape: false, pdfs: [{ title: "技術家庭科 問題", file: "gijutsu.pdf", ans: "gijutsu_ans.pdf" }, { title: "技術家庭科 模範解答", file: "gijutsu_ans.pdf" }] }
   ];
+  // 見切れゼロ：pdf.jsで1ページ目全体を綺麗に表示する関数
+  const thumbCache = {};
+  async function renderCleanThumb(url, container) {
+    try {
+      if (!thumbCache[url]) {
+        const doc = await pdfjsLib.getDocument(url).promise;
+        const page = await doc.getPage(1);
+        const viewport = page.getViewport({ scale: 0.45 });
+        const c = document.createElement("canvas");
+        c.width = viewport.width; c.height = viewport.height;
+        await page.render({ canvasContext: c.getContext("2d"), viewport }).promise;
+        thumbCache[url] = c.toDataURL();
+      }
+      container.innerHTML = `<img src="${thumbCache[url]}">`;
+    } catch (e) {
+      container.textContent = "PDF";
+    }
+  }
+
   // カルーセル描画＆自動スライド（4秒ごと）
   let currentSlide = 0;
   const track = document.getElementById("carouselTrack"), dots = document.getElementById("carouselDots");
   [...carouselFiles, ...carouselFiles.slice(0, 4)].forEach(item => {
-    const cls = item.landscape ? "carousel-card landscape" : "carousel-card";
-    track.innerHTML += `<div class="${cls}"><iframe src="${item.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div>`;
+    const card = document.createElement("div");
+    card.className = item.landscape ? "carousel-card landscape" : "carousel-card";
+    card.textContent = "読込中";
+    track.appendChild(card);
+    renderCleanThumb(item.file, card);
   });
   carouselFiles.forEach((_, idx) => {
     const dot = document.createElement("div");
@@ -216,7 +449,7 @@
     const cards = track.querySelectorAll(".carousel-card");
     let offset = 0;
     for (let i = 0; i < currentSlide; i++) {
-      if (cards[i]) offset += cards[i].offsetWidth + 14;
+      if (cards[i]) offset += cards[i].offsetWidth + 16;
     }
     track.style.transform = `translateX(-${offset}px)`;
     Array.from(dots.children).forEach((d, i) => d.classList.toggle("active", i === currentSlide));
@@ -239,7 +472,14 @@
     item.className = "subject-item" + (index === 0 ? " open" : "");
     const header = document.createElement("div");
     header.className = "subject-header";
-    header.innerHTML = `<span>${subj.name}</span><span class="arrow">▼</span>`;
+    header.innerHTML = `
+      <div class="subj-left">
+        <div class="subj-badge" style="background:${subj.color};">${subj.icon}</div>
+        <span>${subj.name}</span>
+        <span class="subj-count">${subj.pdfs.length}件</span>
+      </div>
+      <span class="arrow">▼</span>
+    `;
     header.onclick = () => item.classList.toggle("open");
 
     const body = document.createElement("div"); body.className = "subject-body";
@@ -249,10 +489,18 @@
 
     subj.pdfs.forEach(pdf => {
       const card = document.createElement("div"); card.className = "pdf-card";
-      const thumbCls = subj.landscape ? "pdf-thumb landscape" : "pdf-thumb";
-      card.innerHTML = `<div class="${thumbCls}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
+      const thumb = document.createElement("div");
+      thumb.className = subj.landscape ? "pdf-thumb landscape" : "pdf-thumb";
+      thumb.textContent = "読込中";
+      const titleEl = document.createElement("div");
+      titleEl.className = "pdf-title";
+      titleEl.textContent = pdf.title;
+
+      card.append(thumb, titleEl);
       card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape);
       content.appendChild(card);
+
+      renderCleanThumb(pdf.file, thumb);
     });
 
     inner.appendChild(content); body.appendChild(inner);
@@ -316,7 +564,6 @@
       ansBtn.textContent = "💡 答えを表示";
       ansBtn.classList.remove("active");
     }
-    // アニメーション完了後にキャンバス幅を再調整
     setTimeout(resizeCanvas, 480);
   }
 

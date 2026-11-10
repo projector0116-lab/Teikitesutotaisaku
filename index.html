@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>あらいの定期テスト対策</title>
+  <script src="https://cloudflare.com"></script>
+  <style>
+    :root { --accent: #2e7d32; --accent-soft: #f1f8f1; --border: #e0e6e1; --text: #222222; }
+    body { font-family: "Hiragino Kaku Gothic ProN", sans-serif; background: #f8faf9; color: var(--text); margin: 0; padding: 15px; }
+    .container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 24px; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+    header { text-align: center; border-bottom: 2px solid var(--border); padding-bottom: 14px; margin-bottom: 24px; }
+    header h1 { margin: 0; color: var(--text); font-size: 24px; letter-spacing: 0.05em; }
+
+    .carousel-section { position: relative; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 50px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+    .carousel-viewport { overflow: hidden; width: 100%; }
+    .carousel-track { display: flex; gap: 14px; transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
+    .carousel-card { flex: 0 0 calc(25% - 10.5px); min-width: 70px; height: 150px; background: #ffffff; border: 1.5px solid #cfd8d1; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.04); pointer-events: none; user-select: none; box-sizing: border-box; font-size: 11px; color: #888; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; color: var(--accent); border: 1.5px solid var(--border); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: all 0.2s; font-weight: bold; z-index: 2; }
+    .carousel-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .carousel-btn:active { transform: translateY(-50%) scale(0.92); }
+    .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+    .carousel-dots { margin-top: 14px; display: flex; justify-content: center; gap: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #d5ddd7; cursor: pointer; transition: all 0.3s; }
+    .dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+
+    h2 { font-size: 17px; color: var(--text); border-left: 4px solid var(--accent); padding-left: 10px; margin: 24px 0 12px; }
+    .news-list { list-style: none; padding: 0; margin: 0 0 28px; }
+    .news-list li { border-bottom: 1px solid var(--border); padding: 10px 4px; font-size: 14px; }
+    .news-date { font-weight: bold; color: var(--accent); margin-right: 12px; }
+
+    .subject-item { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; transition: box-shadow 0.25s; }
+    .subject-header { background: #ffffff; padding: 14px 18px; font-size: 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+    .subject-header:hover { background: var(--accent-soft); }
+    .arrow { font-size: 12px; color: var(--accent); transition: transform 0.35s ease; }
+    .subject-item.open .arrow { transform: rotate(180deg); }
+    .subject-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+    .subject-item.open .subject-body { grid-template-rows: 1fr; }
+    .subject-inner { overflow: hidden; }
+    .subject-content { padding: 16px; border-top: 1px solid var(--border); background: #fcfdfc; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+
+    .pdf-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; cursor: pointer; background: #ffffff; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; align-items: center; }
+    .pdf-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(46,125,50,0.1); border-color: var(--accent); }
+    .pdf-card:active { transform: scale(0.97); }
+    .pdf-thumb { width: 84px; height: 115px; margin-bottom: 8px; border: 1px solid #d5ddd7; border-radius: 4px; overflow: hidden; background: #f8faf9; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #888; }
+    .pdf-title { font-size: 12px; font-weight: bold; color: var(--text); line-height: 1.3; }
+
+    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; flex-direction: column; transition: opacity 0.25s ease; }
+    #viewerModal.show { opacity: 1; pointer-events: auto; }
+    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .toolbar button { background: #f3f5f4; color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .toolbar button.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .canvas-wrapper { flex: 1; overflow: auto; display: flex; justify-content: center; padding: 16px; }
+    .canvas-container { position: relative; background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    #pdfCanvas { display: block; }
+    #drawCanvas { position: absolute; top: 0; left: 0; touch-action: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header><h1>あらいの定期テスト対策</h1></header>
+  <section class="carousel-section">
+    <button class="carousel-btn prev" onclick="moveSlide(-1)">←</button>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+    <button class="carousel-btn next" onclick="moveSlide(1)">→</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </section>
+  <section>
+    <h2>お知らせ</h2>
+    <ul class="news-list">
+      <li><span class="news-date">11月10日</span>読み込み中...</li>
+    </ul>
+  </section>
+  <section>
+    <h2>問題一覧</h2>
+    <div id="subjectList"></div>
+  </section>
+</div>
+
+<div id="viewerModal">
+  <div class="toolbar">
+    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+      <button id="penToggleBtn" class="active" onclick="togglePenMode()">✏️ ペン: ON</button>
+      <button id="color-red" class="color-btn" onclick="selectPen('#d32f2f', 'color-red')" style="border:2px solid #d32f2f; color:#d32f2f; background:#fff;">赤</button>
+      <button id="color-blue" class="color-btn" onclick="selectPen('#1976d2', 'color-blue')" style="border:2px solid transparent; color:#1976d2;">青</button>
+      <button id="color-black" class="color-btn" onclick="selectPen('#222222', 'color-black')" style="border:2px solid transparent; color:#222222;">黒</button>
+      <button id="color-green" class="color-btn" onclick="selectPen('#2e7d32', 'color-green')" style="border:2px solid transparent; color:#2e7d32;">緑</button>
+      <button id="eraserBtn" onclick="selectEraser()" style="border:2px solid transparent;">🧼 消しゴム</button>
+      <select id="penSize" onchange="penWidth = Number(this.value)" style="padding:5px; border-radius:6px; border:1px solid #ccc; font-weight:bold;">
+        <option value="2">細</option>
+        <option value="3" selected>中</option>
+        <option value="6">太</option>
+      </select>
+      <button onclick="undoDrawing()">↩ 1画戻る</button>
+      <button onclick="clearDrawing()">全消去</button>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <button id="prevPageBtn" onclick="changePage(-1)">前へ</button>
+      <span id="pageInfo" style="margin:0 6px;font-weight:bold;">1 / 1</span>
+      <button id="nextPageBtn" onclick="changePage(1)">次へ</button>
+      <button onclick="closeViewer()" style="background:#ffebee; color:#c62828; border-color:#ffcdd2;">✕ 閉じる</button>
+    </div>
+  </div>
+  <div class="canvas-wrapper">
+    <div class="canvas-container">
+      <canvas id="pdfCanvas"></canvas>
+      <canvas id="drawCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
+  const MICROCMS_DOMAIN = "teikitesuto";
+
+  if (typeof pdfjsLib !== "undefined") {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+  }
+
+  async function loadNews() {
+    const listEl = document.querySelector(".news-list");
+    try {
+      const res = await fetch(`https://${MICROCMS_DOMAIN}.microcms.io/api/v1/news`, {
+        headers: { "X-MICROCMS-API-KEY": MICROCMS_API_KEY }
+      });
+      const data = await res.json();
+      listEl.innerHTML = (data.contents && data.contents.length > 0)
+        ? data.contents.map(i => `<li><span class="news-date">${i.date || ""}</span>${i.content || ""}</li>`).join("")
+        : `<li>現在お知らせはありません。</li>`;
+    } catch (e) {}
+  }
+  loadNews();
+
+  const carouselFiles = [
+    "shakai_heian.pdf",
+    "kokugo_bunpou.pdf",
+    "sugaku.pdf",
+    "rika.pdf",
+    "eigo_unit6.pdf"
+  ];
+
+  const subjectsData = [
+    {
+      name: "社会",
+      pdfs: [
+        { title: "歴史 平安時代", file: "shakai_heian.pdf" },
+        { title: "歴史 平安時代 模範解答", file: "shakai_heian_ans.pdf" },
+        { title: "歴史 飛鳥時代", file: "shakai_asuka.pdf" },
+        { title: "歴史 飛鳥時代 模範解答", file: "shakai_asuka_ans.pdf" },
+        { title: "歴史 奈良時代", file: "shakai_nara.pdf" },
+        { title: "歴史 奈良時代 模範解答", file: "shakai_nara_ans.pdf" },
+        { title: "地理 アジア州", file: "shakai_asia.pdf" },
+        { title: "地理 アジア州 模範解答", file: "shakai_asia_ans.pdf" }
+      ]
+    },
+    {
+      name: "国語",
+      pdfs: [
+        { title: "文法", file: "kokugo_bunpou.pdf" },
+        { title: "文法 模範解答", file: "kokugo_bunpou_ans.pdf" },
+        { title: "大人になれなかった弟たちに…", file: "kokugo_otona.pdf" },
+        { title: "大人になれなかった弟たちに… 模範解答", file: "kokugo_otona_ans.pdf" },
+        { title: "星の花が降るころに", file: "kokugo_hoshi.pdf" },
+        { title: "星の花が降るころに 模範解答", file: "kokugo_hoshi_ans.pdf" },
+        { title: "「言葉」をもつ鳥、シジュウカラ", file: "kokugo_kotoba.pdf" },
+        { title: "「言葉」をもつ鳥、シジュウカラ 模範解答", file: "kokugo_kotoba_ans.pdf" }
+      ]
+    },
+    {
+      name: "数学",
+      pdfs: [
+        { title: "数学 問題", file: "sugaku.pdf" },
+        { title: "数学 解答", file: "sugaku_ans.pdf" }
+      ]
+    },
+    {
+      name: "理科",
+      pdfs: [
+        { title: "物質の溶解", file: "rika.pdf" },
+        { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }
+      ]
+    },
+    {
+      name: "英語",
+      pdfs: [
+        { title: "unit6 問題", file: "eigo_unit6.pdf" },
+        { title: "unit6 模範解答", file: "eigo_unit6_ans.pdf" },
+        { title: "unit7 問題", file: "eigo_unit7.pdf" },
+        { title: "unit7 模範解答", file: "eigo_unit7_ans.pdf" }
+      ]
+    },
+    {
+      name: "音楽",
+      pdfs: [
+        { title: "音楽 問題", file: "ongaku.pdf" },
+        { title: "音楽 模範解答", file: "ongaku_ans.pdf" }
+      ]
+    },
+    {
+      name: "保健体育",
+      pdfs: [
+        { title: "保健体育 問題", file: "hoken.pdf" },
+        { title: "保健体育 模範解答", file: "hoken_ans.pdf" }
+      ]
+    },
+    {
+      name: "技術家庭科",
+      pdfs: [
+        { title: "技術家庭科 問題", file: "gijutsu.pdf" },
+        { title: "技術家庭科 模範解答", file: "gijutsu_ans.pdf" }
+      ]
+    }
+  ];
+  const thumbCache = {};
+  async function renderThumbnail(url, container) {
+    try {
+      if (!thumbCache[url]) {
+        const doc = await pdfjsLib.getDocument(url).promise;
+        const page = await doc.getPage(1);
+        const viewport = page.getViewport({ scale: 0.4 });
+        const c = document.createElement("canvas");
+        c.width = viewport.width; c.height = viewport.height;
+        await page.render({ canvasContext: c.getContext("2d"), viewport }).promise;
+        thumbCache[url] = c.toDataURL();
+      }
+      container.innerHTML = `<img src="${thumbCache[url]}" style="width:100%;height:100%;object-fit:contain;display:block;">`;
+    } catch (e) {
+      container.textContent = "PDF";
+    }
+  }
+
+  let currentSlide = 0;
+  const track = document.getElementById("carouselTrack"), dots = document.getElementById("carouselDots");
+  const loopItems = [...carouselFiles, ...carouselFiles.slice(0, 4)];
+  loopItems.forEach(file => {
+    const card = document.createElement("div");
+    card.className = "carousel-card"; card.textContent = "PDF";
+    track.appendChild(card); renderThumbnail(file, card);
+  });
+  carouselFiles.forEach((_, idx) => {
+    const dot = document.createElement("div");
+    dot.className = "dot" + (idx === 0 ? " active" : "");
+    dot.onclick = () => { currentSlide = idx; updateCarousel(); };
+    dots.appendChild(dot);
+  });
+
+  function updateCarousel() {
+    const card = track.querySelector(".carousel-card");
+    const stepPx = card ? card.offsetWidth + 14 : 90;
+    track.style.transform = `translateX(-${currentSlide * stepPx}px)`;
+    Array.from(dots.children).forEach((d, i) => d.classList.toggle("active", i === currentSlide));
+  }
+  function moveSlide(step) {
+    currentSlide = (currentSlide + step + carouselFiles.length) % carouselFiles.length;
+    updateCarousel();
+  }
+  window.addEventListener("resize", updateCarousel);
+
+  const subjectListEl = document.getElementById("subjectList");
+  subjectsData.forEach((subj, index) => {
+    const item = document.createElement("div");
+    item.className = "subject-item" + (index === 0 ? " open" : "");
+    const header = document.createElement("div");
+    header.className = "subject-header";
+    header.innerHTML = `<span>${subj.name}</span><span class="arrow">▼</span>`;
+    header.onclick = () => item.classList.toggle("open");
+
+    const body = document.createElement("div"); body.className = "subject-body";
+    const inner = document.createElement("div"); inner.className = "subject-inner";
+    const content = document.createElement("div"); content.className = "subject-content";
+
+    subj.pdfs.forEach(pdf => {
+      const card = document.createElement("div"); card.className = "pdf-card";
+      const thumb = document.createElement("div"); thumb.className = "pdf-thumb"; thumb.textContent = "PDF";
+      const titleEl = document.createElement("div"); titleEl.className = "pdf-title"; titleEl.textContent = pdf.title;
+      card.append(thumb, titleEl);
+      card.onclick = () => openPdfViewer(pdf.file, pdf.title);
+      content.appendChild(card);
+      renderThumbnail(pdf.file, thumb);
+    });
+
+    inner.appendChild(content); body.appendChild(inner);
+    item.append(header, body); subjectListEl.appendChild(item);
+  });
+
+  let pdfDoc = null, pageNum = 1, penMode = true, penColor = "#d32f2f", penWidth = 3, isEraser = false, isDrawing = false;
+  let historyStack = [];
+  let pageDrawings = {};
+
+  const pdfCanvas = document.getElementById("pdfCanvas"), drawCanvas = document.getElementById("drawCanvas");
+  const pdfCtx = pdfCanvas.getContext("2d"), drawCtx = drawCanvas.getContext("2d");
+
+  async function openPdfViewer(url, title) {
+    document.getElementById("viewerModal").classList.add("show");
+    historyStack = [];
+    pageDrawings = {};
+    try {
+      pdfDoc = await pdfjsLib.getDocument(url).promise;
+      pageNum = 1;
+      await renderPage(pageNum);
+    } catch (e) {
+      pdfDoc = null; pdfCanvas.width = drawCanvas.width = 650; pdfCanvas.height = drawCanvas.height = 900;
+      pdfCtx.fillStyle = "#fff"; pdfCtx.fillRect(0, 0, 650, 900);
+      pdfCtx.fillStyle = "#c62828"; pdfCtx.font = "bold 20px sans-serif";
+      pdfCtx.fillText(`ファイルが見つかりません: ${url}`, 30, 60);
+      document.getElementById("pageInfo").textContent = "1 / 1";
+      updatePageButtons();
+    }
+  }
+
+  function updatePageButtons() {
+    const prevBtn = document.getElementById("prevPageBtn");
+    const nextBtn = document.getElementById("nextPageBtn");
+    const prevDisabled = !pdfDoc || pageNum <= 1;
+    const nextDisabled = !pdfDoc || pageNum >= pdfDoc.numPages;
+    prevBtn.style.opacity = prevDisabled ? "0.4" : "1";
+    prevBtn.disabled = prevDisabled;
+    nextBtn.style.opacity = nextDisabled ? "0.4" : "1";
+    nextBtn.disabled = nextDisabled;
+  }
+
+  async function renderPage(num) {
+    if (!pdfDoc) return;
+    historyStack = [];
+    const page = await pdfDoc.getPage(num);
+    const viewport = page.getViewport({ scale: 1.5 });
+    pdfCanvas.width = drawCanvas.width = viewport.width;
+    pdfCanvas.height = drawCanvas.height = viewport.height;
+
+    await page.render({ canvasContext: pdfCtx, viewport }).promise;
+
+    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    if (pageDrawings[num]) {
+      drawCtx.putImageData(pageDrawings[num], 0, 0);
+    }
+
+    document.getElementById("pageInfo").textContent = `${num} / ${pdfDoc.numPages}`;
+    updatePageButtons();
+  }
+
+  async function changePage(offset) {
+    if (!pdfDoc) return;
+    const next = pageNum + offset;
+    if (next >= 1 && next <= pdfDoc.numPages) {
+      pageDrawings[pageNum] = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height);
+      pageNum = next;
+      await renderPage(pageNum);
+    }
+  }
+
+  function closeViewer() {
+    document.getElementById("viewerModal").classList.remove("show");
+    clearDrawing();
+    pageDrawings = {};
+  }
+
+  function togglePenMode() {
+    penMode = !penMode;
+    const btn = document.getElementById("penToggleBtn");
+    btn.textContent = penMode ? "✏️ ペン: ON" : "👆 スクロール";
+    btn.classList.toggle("active", penMode);
+    drawCanvas.style.pointerEvents = penMode ? "auto" : "none";
+  }
+
+  function resetToolUI() {
+    document.querySelectorAll(".color-btn").forEach(b => { b.style.borderColor = "transparent"; b.style.background = "#f3f5f4"; });
+    const er = document.getElementById("eraserBtn");
+    er.style.borderColor = "transparent"; er.style.background = "#f3f5f4";
+  }
+
+  function selectPen(color, btnId) {
+    isEraser = false;
+    penColor = color;
+    resetToolUI();
+    const btn = document.getElementById(btnId);
+    btn.style.borderColor = color;
+    btn.style.background = "#fff";
+    if (!penMode) togglePenMode();
+  }
+
+  function selectEraser() {
+    isEraser = true;
+    resetToolUI();
+    const er = document.getElementById("eraserBtn");
+    er.style.borderColor = "#333";
+    er.style.background = "#e0e0e0";
+    if (!penMode) togglePenMode();
+  }
+
+  function saveHistory() {
+    if (historyStack.length > 20) historyStack.shift();
+    historyStack.push(drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height));
+  }
+
+  function undoDrawing() {
+    if (historyStack.length > 0) {
+      const prev = historyStack.pop();
+      drawCtx.putImageData(prev, 0, 0);
+    }
+  }
+
+  function clearDrawing() {
+    saveHistory();
+    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    if (pageDrawings[pageNum]) delete pageDrawings[pageNum];
+  }
+
+  function getPos(e) {
+    const r = drawCanvas.getBoundingClientRect();
+    const scaleX = drawCanvas.width / r.width;
+    const scaleY = drawCanvas.height / r.height;
+    const cx = e.touches && e.touches.length > 0 ? e.touches.clientX : e.clientX;
+    const cy = e.touches && e.touches.length > 0 ? e.touches.clientY : e.clientY;
+    return { x: (cx - r.left) * scaleX, y: (cy - r.top) * scaleY };
+  }
+
+  drawCanvas.addEventListener("pointerdown", e => {
+    if (!penMode) return;
+    e.preventDefault();
+    saveHistory();
+    isDrawing = true;
+    const p = getPos(e);
+    drawCtx.beginPath();
+    drawCtx.moveTo(p.x, p.y);
+  });
+
+  drawCanvas.addEventListener("pointermove", e => {
+    if (!isDrawing || !penMode) return;
+    e.preventDefault();
+    const p = getPos(e);
+    if (isEraser) {
+      drawCtx.globalCompositeOperation = "destination-out";
+      drawCtx.lineWidth = 20;
+    } else {
+      drawCtx.globalCompositeOperation = "source-over";
+      drawCtx.strokeStyle = penColor;
+      drawCtx.lineWidth = penWidth;
+    }
+    drawCtx.lineCap = "round";
+    drawCtx.lineJoin = "round";
+    drawCtx.lineTo(p.x, p.y);
+    drawCtx.stroke();
+  });
+
+  drawCanvas.addEventListener("pointerup", () => { isDrawing = false; drawCtx.globalCompositeOperation = "source-over"; });
+  drawCanvas.addEventListener("pointerleave", () => { isDrawing = false; drawCtx.globalCompositeOperation = "source-over"; });
+</script>
+</body>
+</html>

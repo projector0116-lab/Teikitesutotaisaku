@@ -2,12 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>あらいの定期テスト対策</title>
   <style>
     :root { --primary: #1b4332; --accent: #2d6a4f; --accent-soft: #edf6f1; --bg: #f6f8f7; --card: #ffffff; --text: #111814; --subtext: #64746b; --border: #e3e8e5; }
     * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0 0 60px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0 0 60px; touch-action: pan-x pan-y; }
     .hero-header { background: linear-gradient(135deg, #122b20 0%, #1b4332 50%, #2d6a4f 100%); color: #fff; padding: 32px 20px 68px; text-align: center; border-radius: 0 0 24px 24px; box-shadow: 0 10px 30px rgba(18,43,32,0.16); }
     .hero-badge { display: inline-block; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); padding: 3px 14px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; margin-bottom: 10px; color: #d8f3dc; }
     .hero-header h1 { margin: 0; font-size: 25px; font-weight: 800; letter-spacing: 0.06em; }
@@ -56,17 +56,18 @@
     .pdf-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
     #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: #ffffff; z-index: 1000; flex-direction: column; transition: opacity 0.2s ease; }
     #viewerModal.show { opacity: 1; pointer-events: auto; }
-    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
+    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; touch-action: none; }
     .tool-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .toolbar button { background: #f4f6f5; color: var(--text); border: 1px solid var(--border); padding: 6px 11px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
     .toolbar button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     #ansToggleBtn { background: #fdf8ee; color: #b45309; border-color: #fde68a; }
     #ansToggleBtn.active { background: #b45309; color: #fff; border-color: #b45309; }
     .close-btn { background: #fef2f2 !important; color: #b91c1c !important; border-color: #fecaca !important; }
-    .viewer-area { flex: 1; display: flex; width: 100%; height: 100%; background: #ffffff; overflow: hidden; }
+    .viewer-area { flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; background: #ffffff; overflow: hidden; }
     .pane { height: 100%; background: #ffffff; position: relative; transition: width 0.4s cubic-bezier(0.25,1,0.5,1), opacity 0.35s ease; overflow: hidden; }
-    .problem-pane { width: 100%; }
-    .viewer-area.compare-mode .problem-pane { width: 50%; border-right: 1px solid var(--border); }
+    .problem-pane { width: min(100vw, 820px); }
+    .problem-pane.landscape-doc { width: min(100vw, 1080px); }
+    .viewer-area.compare-mode .problem-pane { width: 50% !important; border-right: 1px solid var(--border); }
     .answer-pane { width: 0; opacity: 0; pointer-events: none; }
     .viewer-area.compare-mode .answer-pane { width: 50%; opacity: 1; pointer-events: auto; }
     .pane iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
@@ -109,7 +110,7 @@
       <button onclick="clearDrawing()">全消去</button>
     </div>
     <div class="tool-group">
-      <span style="font-size:11.5px; color:#64746b;">2本指で拡大・移動可</span>
+      <span style="font-size:11.5px; color:#64746b;">用紙上を2本指で拡大・移動可</span>
       <button class="close-btn" onclick="closeViewer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg><span>閉じる</span></button>
     </div>
   </div>
@@ -121,6 +122,8 @@
 <script>
   const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
   const MICROCMS_DOMAIN = "teikitesuto";
+
+  document.addEventListener("gesturestart", e => e.preventDefault());
 
   async function loadNews() {
     const listEl = document.querySelector(".news-list");
@@ -180,7 +183,7 @@
       } else {
         const card = document.createElement("div"); card.className = "pdf-card";
         card.innerHTML = `<div class="${subj.landscape ? 'pdf-thumb landscape' : 'pdf-thumb'}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
-        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null); content.appendChild(card);
+        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape); content.appendChild(card);
       }
     });
     inner.appendChild(content); body.appendChild(inner); item.append(header, body); subjectListEl.appendChild(item);
@@ -203,11 +206,13 @@
     drawCanvas.style.pointerEvents = penMode ? "auto" : "none";
   }
 
-  function openPdfViewer(url, ansUrl) {
+  function openPdfViewer(url, ansUrl, isLandscape) {
     historyStack = []; currentAnsUrl = ansUrl; isCompareOpen = false;
     setPenState(false);
-    const area = document.getElementById("viewerArea"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel");
-    area.classList.remove("compare-mode"); document.getElementById("ansFrame").src = "";
+    const area = document.getElementById("viewerArea"), probPane = document.getElementById("problemPane"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel");
+    area.classList.remove("compare-mode");
+    probPane.classList.toggle("landscape-doc", Boolean(isLandscape));
+    document.getElementById("ansFrame").src = "";
     if (ansUrl) { ansBtn.style.display = "inline-flex"; ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); } else ansBtn.style.display = "none";
     document.getElementById("pdfFrame").src = `${url}#toolbar=0&navpanes=0&view=Fit`;
     document.getElementById("viewerModal").classList.add("show");

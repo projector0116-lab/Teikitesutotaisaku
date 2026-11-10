@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あらいの定期テスト対策</title>
+  <script src="https://cloudflare.com"></script>
   <style>
     :root {
       --primary: #1b5e20;
@@ -56,7 +57,6 @@
       padding: 0 16px;
     }
 
-    /* カルーセル（余白ゼロ・枠いっぱい表示） */
     .carousel-section {
       position: relative;
       background: var(--card);
@@ -204,7 +204,6 @@
     }
     .subject-content.landscape-grid { grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); }
 
-    /* 問題カード（余白ゼロ・枠ぴったり表示） */
     .pdf-card {
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -218,6 +217,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      text-decoration: none;
     }
     .pdf-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(46,125,50,0.12); border-color: var(--accent); }
     .pdf-thumb {
@@ -234,9 +234,24 @@
     .pdf-thumb.landscape { width: 158px; height: 112px; }
     .pdf-thumb iframe { width: 650px; height: 920px; transform: scale(0.167); transform-origin: 0 0; border: none; pointer-events: none; }
     .pdf-thumb.landscape iframe { width: 920px; height: 650px; transform: scale(0.172); transform-origin: 0 0; border: none; pointer-events: none; }
+    .link-thumb {
+      width: 108px;
+      height: 152px;
+      margin-bottom: 10px;
+      border: 1px solid #c8e6c9;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: bold;
+      gap: 6px;
+    }
     .pdf-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
 
-    /* 全画面モーダル（画面いっぱい大画面表示＆答え比較スライド） */
+    /* 全画面モーダル（PDF自動リサイズ＆答え比較スライド） */
     #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(15, 23, 18, 0.92); z-index: 1000; flex-direction: column; transition: opacity 0.25s ease; }
     #viewerModal.show { opacity: 1; pointer-events: auto; }
     .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; }
@@ -248,9 +263,8 @@
     .viewer-area { flex: 1; display: flex; justify-content: center; align-items: center; padding: 10px; overflow: hidden; gap: 0; transition: gap 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
     .viewer-area.compare-mode { gap: 12px; }
     .pane { height: 100%; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 32px rgba(0,0,0,0.45); position: relative; transition: width 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease; }
-    .problem-pane { width: min(92vw, 520px); }
-    .problem-pane.landscape-doc { width: min(94vw, 840px); }
-    .viewer-area.compare-mode .problem-pane { width: 49%; }
+    .problem-pane { width: 600px; max-width: 96vw; }
+    .viewer-area.compare-mode .problem-pane { width: 49% !important; }
     .answer-pane { width: 0; opacity: 0; pointer-events: none; }
     .viewer-area.compare-mode .answer-pane { width: 49%; opacity: 1; pointer-events: auto; }
 
@@ -327,6 +341,10 @@
   const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
   const MICROCMS_DOMAIN = "teikitesuto";
 
+  if (typeof pdfjsLib !== "undefined") {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+  }
+
   async function loadNews() {
     const listEl = document.querySelector(".news-list");
     try {
@@ -377,7 +395,14 @@
       ]
     },
     { name: "数学", icon: "数", color: "#1565c0", landscape: false, pdfs: [{ title: "数学 問題", file: "sugaku.pdf", ans: "sugaku_ans.pdf" }, { title: "数学 解答", file: "sugaku_ans.pdf" }] },
-    { name: "理科", icon: "理", color: "#2e7d32", landscape: false, pdfs: [{ title: "物質の溶解", file: "rika.pdf", ans: "rika_ans.pdf" }, { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }] },
+    {
+      name: "理科", icon: "理", color: "#2e7d32", landscape: false,
+      pdfs: [
+        { title: "理科シュミレーター", link: "https://netlify.app" },
+        { title: "物質の溶解", file: "rika.pdf", ans: "rika_ans.pdf" },
+        { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }
+      ]
+    },
     {
       name: "英語", icon: "英", color: "#6a1b9a", landscape: false,
       pdfs: [
@@ -446,20 +471,43 @@
     content.className = subj.landscape ? "subject-content landscape-grid" : "subject-content";
 
     subj.pdfs.forEach(pdf => {
-      const card = document.createElement("div"); card.className = "pdf-card";
-      const thumbCls = subj.landscape ? "pdf-thumb landscape" : "pdf-thumb";
-      card.innerHTML = `<div class="${thumbCls}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
-      card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape);
-      content.appendChild(card);
+      if (pdf.link) {
+        const linkCard = document.createElement("a");
+        linkCard.className = "pdf-card";
+        linkCard.href = pdf.link;
+        linkCard.target = "_blank";
+        linkCard.rel = "noopener noreferrer";
+        linkCard.innerHTML = `<div class="link-thumb"><span style="font-size:28px;">🔬</span><span style="font-size:11px;">Webアプリ</span></div><div class="pdf-title">${pdf.title} ↗</div>`;
+        content.appendChild(linkCard);
+      } else {
+        const card = document.createElement("div"); card.className = "pdf-card";
+        const thumbCls = subj.landscape ? "pdf-thumb landscape" : "pdf-thumb";
+        card.innerHTML = `<div class="${thumbCls}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
+        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape);
+        content.appendChild(card);
+      }
     });
 
     inner.appendChild(content); body.appendChild(inner);
     item.append(header, body); subjectListEl.appendChild(item);
   });
 
+  // PDFの縦横比に応じた自動リサイズ＆ペン＆答え比較
   let penMode = true, penColor = "#d32f2f", penWidth = 3, isEraser = false, isDrawing = false, historyStack = [];
-  let currentAnsUrl = null, isCompareOpen = false;
+  let currentAnsUrl = null, isCompareOpen = false, currentDocRatio = 0.707;
   const drawCanvas = document.getElementById("drawCanvas"), drawCtx = drawCanvas.getContext("2d");
+
+  function applyAutoPaneSize() {
+    const area = document.getElementById("viewerArea");
+    const probPane = document.getElementById("problemPane");
+    if (area.classList.contains("compare-mode")) return;
+
+    const availH = area.clientHeight - 20;
+    const availW = area.clientWidth - 20;
+    let targetW = Math.round(availH * currentDocRatio);
+    if (targetW > availW) targetW = availW;
+    probPane.style.width = targetW + "px";
+  }
 
   function resizeCanvas() {
     const saved = drawCanvas.width > 0 ? drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height) : null;
@@ -468,17 +516,23 @@
     if (saved) drawCtx.putImageData(saved, 0, 0);
   }
 
-  function openPdfViewer(url, ansUrl, isLandscape) {
+  window.addEventListener("resize", () => {
+    if (document.getElementById("viewerModal").classList.contains("show")) {
+      applyAutoPaneSize();
+      resizeCanvas();
+    }
+  });
+
+  async function openPdfViewer(url, ansUrl, isLandscape) {
     historyStack = [];
     currentAnsUrl = ansUrl;
     isCompareOpen = false;
+    currentDocRatio = isLandscape ? 1.414 : 0.707;
 
     const area = document.getElementById("viewerArea");
-    const probPane = document.getElementById("problemPane");
     const ansBtn = document.getElementById("ansToggleBtn");
 
     area.classList.remove("compare-mode");
-    probPane.classList.toggle("landscape-doc", Boolean(isLandscape));
     document.getElementById("ansFrame").src = "";
 
     if (ansUrl) {
@@ -489,9 +543,21 @@
       ansBtn.style.display = "none";
     }
 
-    document.getElementById("pdfFrame").src = `${url}#toolbar=0&navpanes=0&view=FitH`;
+    document.getElementById("pdfFrame").src = `${url}#toolbar=0&navpanes=0&view=Fit`;
     document.getElementById("viewerModal").classList.add("show");
+    applyAutoPaneSize();
     setTimeout(resizeCanvas, 80);
+
+    try {
+      if (typeof pdfjsLib !== "undefined") {
+        const doc = await pdfjsLib.getDocument(url).promise;
+        const page = await doc.getPage(1);
+        const vp = page.getViewport({ scale: 1 });
+        currentDocRatio = vp.width / vp.height;
+        applyAutoPaneSize();
+        setTimeout(resizeCanvas, 480);
+      }
+    } catch (e) {}
   }
 
   function toggleAnswer() {
@@ -503,13 +569,14 @@
 
     if (isCompareOpen) {
       if (!ansFrame.src || !ansFrame.src.includes(currentAnsUrl)) {
-        ansFrame.src = `${currentAnsUrl}#toolbar=0&navpanes=0&view=FitH`;
+        ansFrame.src = `${currentAnsUrl}#toolbar=0&navpanes=0&view=Fit`;
       }
       area.classList.add("compare-mode");
       ansBtn.textContent = "📖 答えを隠す";
       ansBtn.classList.add("active");
     } else {
       area.classList.remove("compare-mode");
+      applyAutoPaneSize();
       ansBtn.textContent = "💡 答えを表示";
       ansBtn.classList.remove("active");
     }

@@ -2,76 +2,76 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あらいの定期テスト対策</title>
   <style>
-    :root { --primary: #1b4332; --accent: #2d6a4f; --accent-soft: #edf6f1; --bg: #f6f8f7; --card: #ffffff; --text: #111814; --subtext: #64746b; --border: #e3e8e5; }
-    * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0 0 60px; touch-action: pan-x pan-y; }
-    .hero-header { background: linear-gradient(135deg, #122b20 0%, #1b4332 50%, #2d6a4f 100%); color: #fff; padding: 32px 20px 68px; text-align: center; border-radius: 0 0 24px 24px; box-shadow: 0 10px 30px rgba(18,43,32,0.16); }
-    .hero-badge { display: inline-block; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); padding: 3px 14px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; margin-bottom: 10px; color: #d8f3dc; }
-    .hero-header h1 { margin: 0; font-size: 25px; font-weight: 800; letter-spacing: 0.06em; }
-    .container { max-width: 900px; margin: -44px auto 0; padding: 0 16px; }
-    .carousel-section { position: relative; background: var(--card); border-radius: 16px; padding: 20px 48px; margin-bottom: 28px; box-shadow: 0 12px 32px rgba(17,24,20,0.05); border: 1px solid var(--border); }
+    :root { --accent: #2d6a4f; --accent-soft: #f1f8f4; --border: #e0e6e2; --text: #1f2923; }
+    body { font-family: "Hiragino Kaku Gothic ProN", -apple-system, BlinkMacSystemFont, sans-serif; background: #f6f8f7; color: var(--text); margin: 0; padding: 0 0 40px; }
+
+    /* 薄緑のグラデーションヘッダー */
+    .hero-header { background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 55%, #95d5b2 100%); color: #1b4332; padding: 32px 20px 68px; text-align: center; border-radius: 0 0 24px 24px; box-shadow: 0 10px 30px rgba(45,106,79,0.12); border-bottom: 1px solid #b7e4c7; }
+    .hero-badge { display: inline-block; border: 1px solid rgba(27,67,50,0.2); background: rgba(255,255,255,0.65); padding: 3px 14px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; margin-bottom: 10px; color: #1b4332; }
+    .hero-header h1 { margin: 0; font-size: 25px; font-weight: 800; letter-spacing: 0.06em; color: #122b20; }
+
+    .container { max-width: 820px; margin: -44px auto 0; padding: 0 16px; }
+
+    /* カルーセル */
+    .carousel-section { position: relative; background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 20px 46px; margin-bottom: 32px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
     .carousel-viewport { overflow: hidden; width: 100%; }
-    .carousel-track { display: flex; align-items: center; gap: 16px; transition: transform 0.5s cubic-bezier(0.25,1,0.5,1); }
-    .carousel-card { flex: 0 0 114px; height: 160px; background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.04); pointer-events: none; user-select: none; position: relative; }
-    .carousel-card.landscape { flex: 0 0 160px; height: 114px; }
-    .carousel-card iframe { width: 650px; height: 920px; transform: scale(0.176); transform-origin: 0 0; border: none; pointer-events: none; }
-    .carousel-card.landscape iframe { width: 920px; height: 650px; transform: scale(0.176); transform-origin: 0 0; border: none; pointer-events: none; }
-    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #fff; color: var(--text); border: 1px solid var(--border); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; z-index: 2; }
-    .carousel-btn:hover { background: var(--primary); color: #fff; }
-    .carousel-btn.prev { left: 8px; } .carousel-btn.next { right: 8px; }
-    .carousel-dots { margin-top: 14px; display: flex; justify-content: center; gap: 6px; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: #cbd5cf; cursor: pointer; transition: all 0.3s; }
-    .dot.active { background: var(--accent); width: 20px; border-radius: 3px; }
-    .section-title { font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: 0.04em; margin: 28px 0 12px; display: flex; align-items: center; gap: 10px; }
-    .section-title::before { content: ""; display: inline-block; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
-    .news-card { background: var(--card); border-radius: 14px; padding: 4px 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.02); border: 1px solid var(--border); }
+    .carousel-track { display: flex; gap: 14px; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+    .carousel-card { flex: 0 0 calc(25% - 10.5px); min-width: 72px; height: 154px; background: #f8faf9; border: 1px solid #d5ddd8; border-radius: 8px; overflow: hidden; pointer-events: none; user-select: none; box-sizing: border-box; position: relative; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #ffffff; color: var(--accent); border: 1px solid var(--border); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .carousel-btn:hover { background: var(--accent); color: #fff; }
+    .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+    .carousel-dots { margin-top: 14px; display: flex; justify-content: center; gap: 7px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #d5ddd8; cursor: pointer; transition: all 0.3s; }
+    .dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+
+    /* セクション見出し */
+    h2 { font-size: 16px; color: var(--text); border-left: 4px solid var(--accent); padding-left: 10px; margin: 28px 0 14px; letter-spacing: 0.04em; }
+
+    /* お知らせ */
+    .news-card { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 6px 16px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .news-list { list-style: none; padding: 0; margin: 0; }
-    .news-list li { border-bottom: 1px solid var(--border); padding: 13px 2px; font-size: 13.5px; display: flex; align-items: center; gap: 12px; }
+    .news-list li { border-bottom: 1px solid #f0f3f1; padding: 12px 2px; font-size: 14px; display: flex; align-items: baseline; gap: 12px; }
     .news-list li:last-child { border-bottom: none; }
-    .news-date { background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 11.5px; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
-    .subject-item { margin-bottom: 10px; border-radius: 14px; overflow: hidden; background: var(--card); box-shadow: 0 2px 12px rgba(0,0,0,0.02); border: 1px solid var(--border); }
-    .subject-header { padding: 15px 20px; font-size: 15px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .subject-header:hover { background: #f9fbfa; }
-    .subj-left { display: flex; align-items: center; gap: 12px; }
-    .subj-badge { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; }
-    .subj-count { font-size: 11px; font-weight: 600; color: var(--subtext); background: #f1f4f2; padding: 2px 8px; border-radius: 4px; }
-    .arrow { color: var(--subtext); transition: transform 0.35s ease; display: flex; align-items: center; }
-    .subject-item.open .arrow { transform: rotate(180deg); color: var(--accent); }
-    .subject-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+    .news-date { font-size: 12px; font-weight: bold; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+
+    /* 教科アコーディオン */
+    .subject-item { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .subject-header { background: #ffffff; padding: 15px 18px; font-size: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+    .subject-header:hover { background: var(--accent-soft); }
+    .subj-left { display: flex; align-items: center; gap: 10px; }
+    .subj-badge { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; }
+    .subj-count { font-size: 12px; color: #777; font-weight: normal; background: #f2f4f3; padding: 2px 8px; border-radius: 10px; }
+    .arrow { font-size: 11px; color: var(--accent); transition: transform 0.3s ease; }
+    .subject-item.open .arrow { transform: rotate(180deg); }
+    .subject-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease; }
     .subject-item.open .subject-body { grid-template-rows: 1fr; }
     .subject-inner { overflow: hidden; }
-    .subject-content { padding: 16px; border-top: 1px solid var(--border); background: #fafcfb; display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 14px; }
-    .subject-content.landscape-grid { grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); }
-    .pdf-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; cursor: pointer; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-decoration: none; }
-    .pdf-card:hover { transform: translateY(-3px); border-color: var(--accent); }
-    .pdf-thumb { width: 108px; height: 152px; margin-bottom: 10px; border: 1px solid #e6ebe8; border-radius: 5px; overflow: hidden; background: #fff; position: relative; pointer-events: none; }
-    .pdf-thumb.landscape { width: 158px; height: 112px; }
-    .pdf-thumb iframe { width: 650px; height: 920px; transform: scale(0.167); transform-origin: 0 0; border: none; pointer-events: none; }
-    .pdf-thumb.landscape iframe { width: 920px; height: 650px; transform: scale(0.172); transform-origin: 0 0; border: none; pointer-events: none; }
-    .link-thumb { width: 108px; height: 152px; margin-bottom: 10px; border: 1px solid #cce3d6; border-radius: 5px; background: linear-gradient(145deg, #f0f7f3 0%, #dceee4 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary); gap: 8px; }
-    .link-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.12em; padding: 2px 7px; border: 1px solid var(--accent); border-radius: 3px; color: var(--accent); }
-    .pdf-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.35; }
-    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: #ffffff; z-index: 1000; flex-direction: column; transition: opacity 0.2s ease; }
+    .subject-content { padding: 16px; border-top: 1px solid var(--border); background: #fafcfb; display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px; }
+
+    /* PDFカード */
+    .pdf-card { border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; cursor: pointer; background: #ffffff; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; align-items: center; }
+    .pdf-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(45,106,79,0.1); border-color: var(--accent); }
+    .pdf-thumb { width: 88px; height: 120px; margin-bottom: 8px; border: 1px solid #d5ddd8; border-radius: 4px; overflow: hidden; background: #f8faf9; position: relative; }
+    .pdf-title { font-size: 12px; font-weight: bold; color: var(--text); line-height: 1.35; }
+
+    /* フッター案内 */
+    .site-footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: #6c757d; font-size: 13px; line-height: 1.85; }
+    .site-footer p { margin: 0 0 6px; }
+    .site-footer .footer-meta { margin-top: 14px; }
+    .site-footer .footer-author { margin: 2px 0 0; font-size: 14px; font-weight: 500; }
+
+    /* ペンビューア */
+    #viewerModal { display: flex; opacity: 0; pointer-events: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; flex-direction: column; transition: opacity 0.2s ease; }
     #viewerModal.show { opacity: 1; pointer-events: auto; }
-    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); z-index: 10; touch-action: none; }
-    .tool-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-    .toolbar button { background: #f4f6f5; color: var(--text); border: 1px solid var(--border); padding: 6px 11px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
-    .toolbar button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    #ansToggleBtn { background: #fdf8ee; color: #b45309; border-color: #fde68a; }
-    #ansToggleBtn.active { background: #b45309; color: #fff; border-color: #b45309; }
-    .close-btn { background: #fef2f2 !important; color: #b91c1c !important; border-color: #fecaca !important; }
-    .viewer-area { flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; background: #ffffff; overflow: hidden; }
-    .pane { height: 100%; background: #ffffff; position: relative; transition: width 0.4s cubic-bezier(0.25,1,0.5,1), opacity 0.35s ease; overflow: hidden; }
-    .problem-pane { width: min(100vw, 820px); }
-    .problem-pane.landscape-doc { width: min(100vw, 1080px); }
-    .viewer-area.compare-mode .problem-pane { width: 50% !important; border-right: 1px solid var(--border); }
-    .answer-pane { width: 0; opacity: 0; pointer-events: none; }
-    .viewer-area.compare-mode .answer-pane { width: 50%; opacity: 1; pointer-events: auto; }
-    .pane iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
-    #drawCanvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; pointer-events: none; }
+    .toolbar { background: #ffffff; color: var(--text); padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    .toolbar button { background: #f3f5f4; color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .toolbar button.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .viewer-area { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
+    #pdfFrame { width: 100%; height: 100%; border: none; background: #fff; }
+    #drawCanvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
   </style>
 </head>
 <body>
@@ -79,165 +79,267 @@
   <div class="hero-badge">STUDY ARCHIVE</div>
   <h1>あらいの定期テスト対策</h1>
 </header>
+
 <div class="container">
   <section class="carousel-section">
-    <button class="carousel-btn prev" onclick="moveSlide(-1); resetAutoSlide();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-    <div class="carousel-viewport"><div class="carousel-track" id="carouselTrack"></div></div>
-    <button class="carousel-btn next" onclick="moveSlide(1); resetAutoSlide();"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    <button class="carousel-btn prev" onclick="moveSlide(-1)">‹</button>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+    <button class="carousel-btn next" onclick="moveSlide(1)">›</button>
     <div class="carousel-dots" id="carouselDots"></div>
   </section>
+
   <section>
-    <div class="section-title">お知らせ</div>
-    <div class="news-card"><ul class="news-list"><li><span class="news-date">11月10日</span>読み込み中...</li></ul></div>
+    <h2>お知らせ</h2>
+    <div class="news-card">
+      <ul class="news-list">
+        <li><span class="news-date">11月10日</span>読み込み中...</li>
+      </ul>
+    </div>
   </section>
+
   <section>
-    <div class="section-title">問題一覧</div>
+    <h2>問題一覧</h2>
     <div id="subjectList"></div>
   </section>
+
+  <footer class="site-footer">
+    <p>このサイトは、パソコンまたはタブレット（iPadなど）で操作することを前提に作られています。スマートフォンでは、表示がずれたり、ペン機能が操作しづらかったりすることがあります。</p>
+    <p>各プリント画面の右上にある「✕ 閉じる」を押すと、このトップページにもどります。</p>
+    <p>ホーム画面に追加して使うには：Safariの共有ボタン（□に↑のマーク）から「ホーム画面に追加」を選び、次からはホーム画面のアイコンから開いてください。</p>
+    <div class="footer-meta">
+      <p>最終更新：2026年11月10日</p>
+      <p class="footer-author">Created by あらい</p>
+    </div>
+  </footer>
 </div>
+
 <div id="viewerModal">
   <div class="toolbar">
-    <div class="tool-group">
-      <button id="penToggleBtn" onclick="togglePenMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path></svg><span id="penToggleLabel">ペン: OFF</span></button>
-      <button id="ansToggleBtn" onclick="toggleAnswer()" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg><span id="ansToggleLabel">答えを表示</span></button>
-      <button id="color-red" class="color-btn" onclick="selectPen('#d32f2f', 'color-red')" style="border:2px solid #d32f2f; color:#d32f2f; background:#fff;">赤</button>
-      <button id="color-blue" class="color-btn" onclick="selectPen('#1976d2', 'color-blue')" style="border:2px solid transparent; color:#1976d2;">青</button>
-      <button id="color-black" class="color-btn" onclick="selectPen('#222222', 'color-black')" style="border:2px solid transparent; color:#222222;">黒</button>
-      <button id="color-green" class="color-btn" onclick="selectPen('#2d6a4f', 'color-green')" style="border:2px solid transparent; color:#2d6a4f;">緑</button>
-      <button id="eraserBtn" onclick="selectEraser()" style="border:2px solid transparent;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 20H7L3 16C2 15 2 13 3 12L13 2L22 11L20 20Z"></path><line x1="11" y1="13" x2="17" y2="7"></line></svg><span>消しゴム</span></button>
-      <select id="penSize" onchange="penWidth = Number(this.value)" style="padding:5px 8px; border-radius:6px; border:1px solid #d5ddd8; font-weight:700; font-size:12.5px; background:#fff;"><option value="2">細</option><option value="3" selected>中</option><option value="6">太</option></select>
-      <button onclick="undoDrawing()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg><span>戻る</span></button>
+    <div>
+      <button id="penToggleBtn" class="active" onclick="togglePenMode()">✏️ ペン: ON</button>
+      <button onclick="setPenColor('#d32f2f')">赤</button>
+      <button onclick="setPenColor('#1976d2')">青</button>
+      <button onclick="setPenColor('#222222')">黒</button>
       <button onclick="clearDrawing()">全消去</button>
     </div>
-    <div class="tool-group">
-      <span style="font-size:11.5px; color:#64746b;">用紙上を2本指で拡大・移動可</span>
-      <button class="close-btn" onclick="closeViewer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg><span>閉じる</span></button>
+    <div>
+      <span style="font-size:12px;color:#666;margin-right:8px;">※スクロール時はペンOFF</span>
+      <button onclick="closeViewer()" style="background:#ffebee; color:#c62828; border-color:#ffcdd2;">✕ 閉じる</button>
     </div>
   </div>
-  <div class="viewer-area" id="viewerArea">
-    <div class="pane problem-pane" id="problemPane"><iframe id="pdfFrame"></iframe><canvas id="drawCanvas"></canvas></div>
-    <div class="pane answer-pane" id="answerPane"><iframe id="ansFrame"></iframe></div>
+  <div class="viewer-area">
+    <iframe id="pdfFrame"></iframe>
+    <canvas id="drawCanvas"></canvas>
   </div>
 </div>
+
 <script>
   const MICROCMS_API_KEY = "9W1VAhgYQz1JT8klCNHVKJIimwgJX6YSYq1c";
   const MICROCMS_DOMAIN = "teikitesuto";
 
-  document.addEventListener("gesturestart", e => e.preventDefault());
-
+  const SUBJECT_DATA = [
+    {
+      name: "社会", short: "社", color: "#d97706",
+      pdfs: [
+        { title: "平安時代（問題）", file: "shakai_heian.pdf" },
+        { title: "平安時代（解答）", file: "shakai_heian_ans.pdf" },
+        { title: "飛鳥時代（問題）", file: "shakai_asuka.pdf" },
+        { title: "飛鳥時代（解答）", file: "shakai_asuka_ans.pdf" },
+        { title: "奈良時代（問題）", file: "shakai_nara.pdf" },
+        { title: "奈良時代（解答）", file: "shakai_nara_ans.pdf" },
+        { title: "アジア州（問題）", file: "shakai_asia.pdf" },
+        { title: "アジア州（解答）", file: "shakai_asia_ans.pdf" }
+      ]
+    },
+    {
+      name: "国語", short: "国", color: "#dc2626",
+      pdfs: [
+        { title: "文法（問題）", file: "kokugo_bunpou.pdf" },
+        { title: "文法（解答）", file: "kokugo_bunpou_ans.pdf" },
+        { title: "大人になれなかった弟たちに（問題）", file: "kokugo_otona.pdf" },
+        { title: "大人になれなかった弟たちに（解答）", file: "kokugo_otona_ans.pdf" },
+        { title: "星の花が降るころに（問題）", file: "kokugo_hoshi.pdf" },
+        { title: "星の花が降るころに（解答）", file: "kokugo_hoshi_ans.pdf" },
+        { title: "言葉をもつ鳥、シジュウカラ（問題）", file: "kokugo_kotoba.pdf" },
+        { title: "言葉をもつ鳥、シジュウカラ（解答）", file: "kokugo_kotoba_ans.pdf" }
+      ]
+    },
+    {
+      name: "数学", short: "数", color: "#2563eb",
+      pdfs: [
+        { title: "方程式（問題）", file: "sugaku.pdf" },
+        { title: "方程式（解答）", file: "sugaku_ans.pdf" }
+      ]
+    },
+    {
+      name: "理科", short: "理", color: "#059669",
+      pdfs: [
+        { title: "物質の溶解（問題）", file: "rika.pdf" },
+        { title: "物質の溶解（解答）", file: "rika_ans.pdf" }
+      ]
+    },
+    {
+      name: "英語", short: "英", color: "#7c3aed",
+      pdfs: [
+        { title: "Unit 6（問題）", file: "eigo_unit6.pdf" },
+        { title: "Unit 6（解答）", file: "eigo_unit6_ans.pdf" },
+        { title: "Unit 7（問題）", file: "eigo_unit7.pdf" },
+        { title: "Unit 7（解答）", file: "eigo_unit7_ans.pdf" }
+      ]
+    },
+    {
+      name: "音楽", short: "音", color: "#db2777",
+      pdfs: [
+        { title: "音楽（問題）", file: "ongaku.pdf" },
+        { title: "音楽（解答）", file: "ongaku_ans.pdf" }
+      ]
+    },
+    {
+      name: "保健体育", short: "保", color: "#ea580c",
+      pdfs: [
+        { title: "保健体育（問題）", file: "hoken.pdf" },
+        { title: "保健体育（解答）", file: "hoken_ans.pdf" }
+      ]
+    },
+    {
+      name: "技術家庭科", short: "技", color: "#0d9488",
+      pdfs: [
+        { title: "技術家庭科（問題）", file: "gijutsu.pdf" },
+        { title: "技術家庭科（解答）", file: "gijutsu_ans.pdf" }
+      ]
+    }
+  ];
   async function loadNews() {
     const listEl = document.querySelector(".news-list");
     try {
-      const res = await fetch(`https://${MICROCMS_DOMAIN}.microcms.io/api/v1/news`, { headers: { "X-MICROCMS-API-KEY": MICROCMS_API_KEY } });
+      const res = await fetch(`https://${MICROCMS_DOMAIN}.microcms.io/api/v1/news`, {
+        headers: { "X-MICROCMS-API-KEY": MICROCMS_API_KEY }
+      });
       const data = await res.json();
-      listEl.innerHTML = (data.contents && data.contents.length > 0) ? data.contents.map(i => `<li><span class="news-date">${i.date || ""}</span><span>${i.content || ""}</span></li>`).join("") : `<li>現在お知らせはありません。</li>`;
+      listEl.innerHTML = (data.contents && data.contents.length > 0)
+        ? data.contents.map(i => `<li><span class="news-date">${i.date || ""}</span><span>${i.content || ""}</span></li>`).join("")
+        : `<li>現在お知らせはありません。</li>`;
     } catch (e) {}
   }
   loadNews();
 
-  const carouselFiles = [{ file: "shakai_heian.pdf", landscape: false }, { file: "kokugo_bunpou.pdf", landscape: true }, { file: "sugaku.pdf", landscape: false }, { file: "rika.pdf", landscape: false }, { file: "eigo_unit6.pdf", landscape: false }];
-  const subjectsData = [
-    { name: "社会", icon: "社", color: "#c2410c", landscape: false, pdfs: [{ title: "歴史 平安時代", file: "shakai_heian.pdf", ans: "shakai_heian_ans.pdf" }, { title: "歴史 平安時代 模範解答", file: "shakai_heian_ans.pdf" }, { title: "歴史 飛鳥時代", file: "shakai_asuka.pdf", ans: "shakai_asuka_ans.pdf" }, { title: "歴史 飛鳥時代 模範解答", file: "shakai_asuka_ans.pdf" }, { title: "歴史 奈良時代", file: "shakai_nara.pdf", ans: "shakai_nara_ans.pdf" }, { title: "歴史 奈良時代 模範解答", file: "shakai_nara_ans.pdf" }, { title: "地理 アジア州", file: "shakai_asia.pdf", ans: "shakai_asia_ans.pdf" }, { title: "地理 アジア州 模範解答", file: "shakai_asia_ans.pdf" }] },
-    { name: "国語", icon: "国", color: "#b91c1c", landscape: true, pdfs: [{ title: "文法", file: "kokugo_bunpou.pdf", ans: "kokugo_bunpou_ans.pdf" }, { title: "文法 模範解答", file: "kokugo_bunpou_ans.pdf" }, { title: "大人になれなかった弟たちに…", file: "kokugo_otona.pdf", ans: "kokugo_otona_ans.pdf" }, { title: "大人になれなかった弟たちに… 模範解答", file: "kokugo_otona_ans.pdf" }, { title: "星の花が降るころに", file: "kokugo_hoshi.pdf", ans: "kokugo_hoshi_ans.pdf" }, { title: "星の花が降るころに 模範解答", file: "kokugo_hoshi_ans.pdf" }, { title: "「言葉」をもつ鳥、シジュウカラ", file: "kokugo_kotoba.pdf", ans: "kokugo_kotoba_ans.pdf" }, { title: "「言葉」をもつ鳥、シジュウカラ 模範解答", file: "kokugo_kotoba_ans.pdf" }] },
-    { name: "数学", icon: "数", color: "#1d4ed8", landscape: false, pdfs: [{ title: "数学 問題", file: "sugaku.pdf", ans: "sugaku_ans.pdf" }, { title: "数学 解答", file: "sugaku_ans.pdf" }] },
-    { name: "理科", icon: "理", color: "#15803d", landscape: false, pdfs: [{ title: "理科シュミレーター", link: "https://" + "totsu-lens-lab.netlify.app/" }, { title: "物質の溶解", file: "rika.pdf", ans: "rika_ans.pdf" }, { title: "物質の溶解 模範解答", file: "rika_ans.pdf" }] },
-    { name: "英語", icon: "英", color: "#6d28d9", landscape: false, pdfs: [{ title: "unit6 問題", file: "eigo_unit6.pdf", ans: "eigo_unit6_ans.pdf" }, { title: "unit6 模範解答", file: "eigo_unit6_ans.pdf" }, { title: "unit7 問題", file: "eigo_unit7.pdf", ans: "eigo_unit7_ans.pdf" }, { title: "unit7 模範解答", file: "eigo_unit7_ans.pdf" }] },
-    { name: "音楽", icon: "音", color: "#be185d", landscape: false, pdfs: [{ title: "音楽 問題", file: "ongaku.pdf", ans: "ongaku_ans.pdf" }, { title: "音楽 模範解答", file: "ongaku_ans.pdf" }] },
-    { name: "保健体育", icon: "体", color: "#0e7490", landscape: false, pdfs: [{ title: "保健体育 問題", file: "hoken.pdf", ans: "hoken_ans.pdf" }, { title: "保健体育 模範解答", file: "hoken_ans.pdf" }] },
-    { name: "技術家庭科", icon: "技", color: "#44403c", landscape: false, pdfs: [{ title: "技術家庭科 問題", file: "gijutsu.pdf", ans: "gijutsu_ans.pdf" }, { title: "技術家庭科 模範解答", file: "gijutsu_ans.pdf" }] }
-  ];
   let currentSlide = 0;
   const track = document.getElementById("carouselTrack"), dots = document.getElementById("carouselDots");
-  [...carouselFiles, ...carouselFiles.slice(0, 4)].forEach(item => {
-    track.innerHTML += `<div class="${item.landscape ? 'carousel-card landscape' : 'carousel-card'}"><iframe src="${item.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div>`;
-  });
-  carouselFiles.forEach((_, idx) => {
-    const dot = document.createElement("div"); dot.className = "dot" + (idx === 0 ? " active" : "");
-    dot.onclick = () => { currentSlide = idx; updateCarousel(); resetAutoSlide(); }; dots.appendChild(dot);
-  });
+  const top5 = [
+    "shakai_heian.pdf",
+    "kokugo_bunpou.pdf",
+    "sugaku.pdf",
+    "rika.pdf",
+    "eigo_unit6.pdf"
+  ];
+  const carouselCount = top5.length;
+
+  function createThumbIframe(fileName) {
+    return `<iframe src="${fileName}#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH" style="width:200%;height:200%;transform:scale(0.5);transform-origin:0 0;border:none;pointer-events:none;background:#fff;" loading="lazy"></iframe>`;
+  }
+
   function updateCarousel() {
-    const cards = track.querySelectorAll(".carousel-card"); let offset = 0;
-    for (let i = 0; i < currentSlide; i++) if (cards[i]) offset += cards[i].offsetWidth + 16;
-    track.style.transform = `translateX(-${offset}px)`;
+    const card = track.querySelector(".carousel-card");
+    const stepPx = card ? card.offsetWidth + 14 : 90;
+    track.style.transform = `translateX(-${currentSlide * stepPx}px)`;
     Array.from(dots.children).forEach((d, i) => d.classList.toggle("active", i === currentSlide));
   }
-  function moveSlide(step) { currentSlide = (currentSlide + step + carouselFiles.length) % carouselFiles.length; updateCarousel(); }
-  let autoSlideTimer = setInterval(() => moveSlide(1), 4000);
-  function resetAutoSlide() { clearInterval(autoSlideTimer); autoSlideTimer = setInterval(() => moveSlide(1), 4000); }
+  function moveSlide(step) {
+    currentSlide = (currentSlide + step + carouselCount) % carouselCount;
+    updateCarousel();
+  }
   window.addEventListener("resize", updateCarousel);
 
-  const subjectListEl = document.getElementById("subjectList");
-  subjectsData.forEach((subj, index) => {
-    const item = document.createElement("div"); item.className = "subject-item" + (index === 0 ? " open" : "");
-    const header = document.createElement("div"); header.className = "subject-header";
-    header.innerHTML = `<div class="subj-left"><div class="subj-badge" style="background:${subj.color};">${subj.icon}</div><span>${subj.name}</span><span class="subj-count">${subj.pdfs.length}</span></div><span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>`;
-    header.onclick = () => item.classList.toggle("open");
-    const body = document.createElement("div"); body.className = "subject-body";
-    const inner = document.createElement("div"); inner.className = "subject-inner";
-    const content = document.createElement("div"); content.className = subj.landscape ? "subject-content landscape-grid" : "subject-content";
-    subj.pdfs.forEach(pdf => {
-      if (pdf.link) {
-        const linkCard = document.createElement("div"); linkCard.className = "pdf-card";
-        linkCard.innerHTML = `<div class="link-thumb"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M3 12h6m6 0h6"></path><path d="M12 3v6m0 6v6"></path></svg><span class="link-tag">APP</span></div><div class="pdf-title">${pdf.title}</div>`;
-        linkCard.onclick = () => { window.location.href = pdf.link; }; content.appendChild(linkCard);
-      } else {
-        const card = document.createElement("div"); card.className = "pdf-card";
-        card.innerHTML = `<div class="${subj.landscape ? 'pdf-thumb landscape' : 'pdf-thumb'}"><iframe src="${pdf.file}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" loading="lazy"></iframe></div><div class="pdf-title">${pdf.title}</div>`;
-        card.onclick = () => openPdfViewer(pdf.file, pdf.ans || null, subj.landscape); content.appendChild(card);
-      }
+  function initPage() {
+    [...top5, ...top5.slice(0, 4)].forEach(file => {
+      const card = document.createElement("div");
+      card.className = "carousel-card";
+      card.innerHTML = createThumbIframe(file);
+      track.appendChild(card);
     });
-    inner.appendChild(content); body.appendChild(inner); item.append(header, body); subjectListEl.appendChild(item);
-  });
+    top5.forEach((_, idx) => {
+      const dot = document.createElement("div");
+      dot.className = "dot" + (idx === 0 ? " active" : "");
+      dot.onclick = () => { currentSlide = idx; updateCarousel(); };
+      dots.appendChild(dot);
+    });
 
-  let penMode = false, penColor = "#d32f2f", penWidth = 3, isEraser = false, isDrawing = false, historyStack = [], currentAnsUrl = null, isCompareOpen = false;
-  const drawCanvas = document.getElementById("drawCanvas"), drawCtx = drawCanvas.getContext("2d");
-  function resizeCanvas() {
-    const saved = drawCanvas.width > 0 ? drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height) : null;
-    drawCanvas.width = drawCanvas.offsetWidth; drawCanvas.height = drawCanvas.offsetHeight;
-    if (saved) drawCtx.putImageData(saved, 0, 0);
+    const subjectListEl = document.getElementById("subjectList");
+    SUBJECT_DATA.forEach((subj, index) => {
+      const item = document.createElement("div");
+      item.className = "subject-item" + (index === 0 ? " open" : "");
+      const header = document.createElement("div");
+      header.className = "subject-header";
+      header.innerHTML = `
+        <div class="subj-left">
+          <span class="subj-badge" style="background:${subj.color}">${subj.short}</span>
+          <span>${subj.name}</span>
+          <span class="subj-count">${subj.pdfs.length}</span>
+        </div>
+        <span class="arrow">▼</span>`;
+      header.onclick = () => item.classList.toggle("open");
+
+      const body = document.createElement("div"); body.className = "subject-body";
+      const inner = document.createElement("div"); inner.className = "subject-inner";
+      const content = document.createElement("div"); content.className = "subject-content";
+
+      subj.pdfs.forEach(pdf => {
+        const card = document.createElement("div"); card.className = "pdf-card";
+        card.innerHTML = `
+          <div class="pdf-thumb">${createThumbIframe(pdf.file)}</div>
+          <div class="pdf-title">${pdf.title}</div>`;
+        card.onclick = () => openPdfViewer(pdf.file);
+        content.appendChild(card);
+      });
+
+      inner.appendChild(content); body.appendChild(inner);
+      item.append(header, body); subjectListEl.appendChild(item);
+    });
   }
-  window.addEventListener("resize", () => { if (document.getElementById("viewerModal").classList.contains("show")) resizeCanvas(); });
+  initPage();
 
-  function setPenState(active) {
-    penMode = active;
+  let penMode = true, penColor = "#d32f2f", isDrawing = false;
+  const drawCanvas = document.getElementById("drawCanvas"), drawCtx = drawCanvas.getContext("2d");
+
+  function resizeCanvas() {
+    drawCanvas.width = drawCanvas.offsetWidth;
+    drawCanvas.height = drawCanvas.offsetHeight;
+  }
+  function openPdfViewer(fileName) {
+    document.getElementById("pdfFrame").src = fileName;
+    document.getElementById("viewerModal").classList.add("show");
+    setTimeout(resizeCanvas, 50);
+  }
+  function closeViewer() {
+    document.getElementById("viewerModal").classList.remove("show");
+    document.getElementById("pdfFrame").src = "";
+    clearDrawing();
+  }
+  function togglePenMode() {
+    penMode = !penMode;
     const btn = document.getElementById("penToggleBtn");
-    document.getElementById("penToggleLabel").textContent = penMode ? "ペン: ON" : "ペン: OFF";
+    btn.textContent = penMode ? "✏️ ペン: ON" : "👆 ペン: OFF";
     btn.classList.toggle("active", penMode);
     drawCanvas.style.pointerEvents = penMode ? "auto" : "none";
   }
-
-  function openPdfViewer(url, ansUrl, isLandscape) {
-    historyStack = []; currentAnsUrl = ansUrl; isCompareOpen = false;
-    setPenState(false);
-    const area = document.getElementById("viewerArea"), probPane = document.getElementById("problemPane"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel");
-    area.classList.remove("compare-mode");
-    probPane.classList.toggle("landscape-doc", Boolean(isLandscape));
-    document.getElementById("ansFrame").src = "";
-    if (ansUrl) { ansBtn.style.display = "inline-flex"; ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); } else ansBtn.style.display = "none";
-    document.getElementById("pdfFrame").src = `${url}#toolbar=0&navpanes=0&view=Fit`;
-    document.getElementById("viewerModal").classList.add("show");
-    setTimeout(resizeCanvas, 80);
+  function setPenColor(c) { penColor = c; if (!penMode) togglePenMode(); }
+  function clearDrawing() { drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); }
+  function getPos(e) {
+    const r = drawCanvas.getBoundingClientRect();
+    const cx = e.touches ? e.touches.clientX : e.clientX;
+    const cy = e.touches ? e.touches.clientY : e.clientY;
+    return { x: cx - r.left, y: cy - r.top };
   }
-  function toggleAnswer() {
-    if (!currentAnsUrl) return; isCompareOpen = !isCompareOpen;
-    const area = document.getElementById("viewerArea"), ansBtn = document.getElementById("ansToggleBtn"), ansLabel = document.getElementById("ansToggleLabel"), ansFrame = document.getElementById("ansFrame");
-    if (isCompareOpen) { if (!ansFrame.src || !ansFrame.src.includes(currentAnsUrl)) ansFrame.src = `${currentAnsUrl}#toolbar=0&navpanes=0&view=Fit`; area.classList.add("compare-mode"); ansLabel.textContent = "答えを隠す"; ansBtn.classList.add("active"); }
-    else { area.classList.remove("compare-mode"); ansLabel.textContent = "答えを表示"; ansBtn.classList.remove("active"); }
-    setTimeout(resizeCanvas, 420);
-  }
-  function closeViewer() { document.getElementById("viewerModal").classList.remove("show"); document.getElementById("pdfFrame").src = ""; document.getElementById("ansFrame").src = ""; drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); setPenState(false); }
-  function togglePenMode() { setPenState(!penMode); }
-  function resetToolUI() { document.querySelectorAll(".color-btn").forEach(b => { b.style.borderColor = "transparent"; b.style.background = "#f4f6f5"; }); const er = document.getElementById("eraserBtn"); er.style.borderColor = "transparent"; er.style.background = "#f4f6f5"; }
-  function selectPen(color, btnId) { isEraser = false; penColor = color; resetToolUI(); const btn = document.getElementById(btnId); btn.style.borderColor = color; btn.style.background = "#fff"; if (!penMode) setPenState(true); }
-  function selectEraser() { isEraser = true; resetToolUI(); const er = document.getElementById("eraserBtn"); er.style.borderColor = "#111814"; er.style.background = "#e3e8e5"; if (!penMode) setPenState(true); }
-  function saveHistory() { if (historyStack.length > 20) historyStack.shift(); historyStack.push(drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height)); }
-  function undoDrawing() { if (historyStack.length > 0) drawCtx.putImageData(historyStack.pop(), 0, 0); }
-  function clearDrawing() { saveHistory(); drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); }
-  function getPos(e) { const r = drawCanvas.getBoundingClientRect(); return { x: (e.touches && e.touches.length > 0 ? e.touches.clientX : e.clientX) - r.left, y: (e.touches && e.touches.length > 0 ? e.touches.clientY : e.clientY) - r.top }; }
-  drawCanvas.addEventListener("pointerdown", e => { if (!penMode) return; e.preventDefault(); saveHistory(); isDrawing = true; const p = getPos(e); drawCtx.beginPath(); drawCtx.moveTo(p.x, p.y); });
-  drawCanvas.addEventListener("pointermove", e => { if (!isDrawing || !penMode) return; e.preventDefault(); const p = getPos(e); if (isEraser) { drawCtx.globalCompositeOperation = "destination-out"; drawCtx.lineWidth = 20; } else { drawCtx.globalCompositeOperation = "source-over"; drawCtx.strokeStyle = penColor; drawCtx.lineWidth = penWidth; } drawCtx.lineCap = "round"; drawCtx.lineJoin = "round"; drawCtx.lineTo(p.x, p.y); drawCtx.stroke(); });
-  drawCanvas.addEventListener("pointerup", () => { isDrawing = false; drawCtx.globalCompositeOperation = "source-over"; });
-  drawCanvas.addEventListener("pointerleave", () => { isDrawing = false; drawCtx.globalCompositeOperation = "source-over"; });
+  drawCanvas.addEventListener("pointerdown", e => {
+    if (!penMode) return; isDrawing = true; const p = getPos(e); drawCtx.beginPath(); drawCtx.moveTo(p.x, p.y);
+  });
+  drawCanvas.addEventListener("pointermove", e => {
+    if (!isDrawing || !penMode) return; const p = getPos(e); drawCtx.strokeStyle = penColor; drawCtx.lineWidth = 3; drawCtx.lineCap = "round"; drawCtx.lineTo(p.x, p.y); drawCtx.stroke();
+  });
+  drawCanvas.addEventListener("pointerup", () => isDrawing = false);
+  drawCanvas.addEventListener("pointerleave", () => isDrawing = false);
 </script>
 </body>
 </html>
